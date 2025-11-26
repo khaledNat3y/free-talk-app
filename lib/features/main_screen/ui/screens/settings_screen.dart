@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:free_talk_app/core/theming/app_colors.dart';
-
 import '../../../../core/helpers/spacing.dart';
 import '../../logic/theme_cubit/theme_cubit.dart';
+import 'supported_languages_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
-  const SettingsScreen({super.key});
+  final GlobalKey<NavigatorState>? navigatorKey;
+
+  const SettingsScreen({
+    super.key,
+    this.navigatorKey,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -165,6 +170,17 @@ class SettingsScreen extends StatelessWidget {
                   iconColor: const Color(0xFF6C5CE7),
                   title: 'Language',
                   isDarkMode: isDarkMode,
+                  onTap: () {
+                    if (navigatorKey != null) {
+                      navigatorKey!.currentState?.push(
+                        MaterialPageRoute(
+                          builder: (context) => SupportedLanguagesScreen(
+                            isDarkMode: isDarkMode,
+                          ),
+                        ),
+                      );
+                    }
+                  },
                 ),
                 const SizedBox(height: 12),
                 _buildSettingItem(
@@ -186,9 +202,10 @@ class SettingsScreen extends StatelessWidget {
     required Color iconColor,
     required String title,
     required bool isDarkMode,
+    Function()? onTap,
   }) {
     return InkWell(
-      onTap: () {},
+      onTap: onTap,
       borderRadius: BorderRadius.circular(8),
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),

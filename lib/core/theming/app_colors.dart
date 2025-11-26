@@ -16,4 +16,7 @@ abstract class AppColors {
   static const Color success = Color(0xff10b981);
   static const Color error = Color(0xffef4444);
   static const Color warning = Color(0xfff59e0b);
+  static const Color french = Color(0xff191D77);
+  static const Color american = Color(0xff3A3E83);
+  static const Color egyptian = Color(0xff125C0B);
 }
