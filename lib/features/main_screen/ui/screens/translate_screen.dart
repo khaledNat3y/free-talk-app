@@ -4,57 +4,38 @@ import '../widgets/custom_text_field.dart';
 
 
 class TranslateScreen extends StatelessWidget {
-  const TranslateScreen({super.key});
+  final bool isDarkMode;
+  const TranslateScreen({super.key, required this.isDarkMode});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-             Text(
-              'Translate',
-              style: Theme.of(context).textTheme.displayLarge,
-            ),
-            // Input Field
-            const CustomTextField(),
-            const SizedBox(height: 20),
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Translate',
+            style: Theme.of(context).textTheme.displayLarge,
+          ),
+          // Input Field
+          CustomTextField(hintText: 'Search',isDarkMode: isDarkMode,),
+          const SizedBox(height: 20),
 
-            // Sign Language Display
-            // Container(
-            //   height: 400,
-            //   decoration: BoxDecoration(
-            //     color: Colors.white,
-            //     borderRadius: BorderRadius.circular(15),
-            //   ),
-            //   child: Center(
-            //     child: Column(
-            //       mainAxisAlignment: MainAxisAlignment.center,
-            //       children: [
-            //         Row(
-            //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //           children: [
-            //             _buildSignImage(),
-            //             _buildSignImage(),
-            //             _buildSignImage(),
-            //           ],
-            //         ),
-            //         const SizedBox(height: 20),
-            //         Row(
-            //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //           children: [
-            //             _buildSignImage(),
-            //             _buildSignImage(),
-            //           ],
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            // ),
-          ],
-        ),
+          // Sign Language Display
+          Expanded(
+            child: Container(
+              decoration: ShapeDecoration(
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                  side: const BorderSide(),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+              ),
+
+            ),
+          ),
+        ],
       ),
     );
   }

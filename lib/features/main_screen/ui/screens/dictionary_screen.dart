@@ -1,59 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:free_talk_app/core/helpers/spacing.dart';
+import 'package:free_talk_app/features/main_screen/ui/widgets/custom_text_field.dart';
 
 class DictionaryScreen extends StatelessWidget {
-  const DictionaryScreen({super.key});
+  final bool isDarkMode;
+  const DictionaryScreen({super.key, required this.isDarkMode});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF1A1A2E),
-      appBar: AppBar(
-        title: const Text(
-          'Dictionary',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
-        ),
-        backgroundColor: const Color(0xFF16213E),
-        elevation: 0,
-      ),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Search Bar
-            Container(
-              decoration: BoxDecoration(
-                color: const Color(0xFF16213E),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: const TextField(
-                style: TextStyle(color: Colors.white),
-                decoration: InputDecoration(
-                  hintText: 'Search',
-                  hintStyle: TextStyle(color: Colors.white54),
-                  border: InputBorder.none,
-                  icon: Icon(Icons.search, color: Colors.white54),
-                ),
-              ),
+            Text(
+              'Dictionary',
+              style: Theme.of(context).textTheme.displayLarge,
             ),
-            const SizedBox(height: 20),
+            // Search Bar
+            CustomTextField(hintText: 'Search',onChanged: (value) {
 
-            // Results Display
+            }, isDarkMode: isDarkMode,),
+            verticalSpace(20),
+
+            /// Results Display
             Expanded(
               child: Container(
-                decoration: BoxDecoration(
+                decoration: ShapeDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: const Center(
-                  child: Text(
-                    'Search for sign language words',
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 16,
-                    ),
+                  shape: RoundedRectangleBorder(
+                    side: const BorderSide(),
+                    borderRadius: BorderRadius.circular(15),
                   ),
                 ),
+
               ),
             ),
           ],

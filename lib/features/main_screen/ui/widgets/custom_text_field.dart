@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:free_talk_app/core/theming/app_colors.dart';
 import 'package:free_talk_app/core/theming/app_text_theme.dart';
 
 class CustomTextField extends StatelessWidget {
+  final String hintText;
+  final bool isDarkMode;
+  final void Function(String)? onChanged;
+
   const CustomTextField({
-    super.key,
+    super.key, required this.hintText, this.onChanged, required this.isDarkMode,
   });
 
   @override
@@ -17,18 +22,23 @@ class CustomTextField extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 10),
       child: TextField(
         style: const TextStyle(color: Colors.white),
+        onChanged: onChanged,
         decoration: InputDecoration(
-          hintText: 'Search',
-          hintStyle: AppTextTheme.font16BlackRegular,
+          contentPadding: EdgeInsets.only(left: 20.w),
+          hintText: hintText,
+          hintFadeDuration: const Duration(milliseconds: 500),
+          hintStyle: Theme.of(context).textTheme.displaySmall,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(30),
+            borderSide: BorderSide(color: isDarkMode ? AppColors.white : AppColors.black),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(30),
+            borderSide: BorderSide(color: isDarkMode ? AppColors.white : AppColors.black),
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: const BorderSide(color: Colors.white),
+            borderRadius: BorderRadius.circular(30),
+            borderSide: BorderSide(color: isDarkMode ? AppColors.white : AppColors.black),
           ),
         ),
       ),
