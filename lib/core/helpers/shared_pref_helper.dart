@@ -23,7 +23,7 @@ class SharedPrefHelper {
   }
 
   /// Saves a [value] with a [key] in the SharedPreferences.
-  static Future<Null> setData(String key, value) async {
+  static Future<void> setData(String key, value) async {
     final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Logger.debug("SharedPrefHelper : setData with key : $key and value : $value");
     switch (value.runtimeType) {
@@ -40,7 +40,7 @@ class SharedPrefHelper {
         await sharedPreferences.setDouble(key, value);
         break;
       default:
-        return null;
+        return;
     }
   }
 

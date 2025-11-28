@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:free_talk_app/core/theming/app_colors.dart';
-import 'package:free_talk_app/core/theming/app_text_theme.dart';
 
 class CustomTextField extends StatelessWidget {
   final String hintText;

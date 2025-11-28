@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:free_talk_app/core/helpers/app_assets.dart';
-import 'package:free_talk_app/core/helpers/extensions.dart';
 import 'package:free_talk_app/core/helpers/spacing.dart';
 import 'package:free_talk_app/core/theming/app_colors.dart';
 import 'package:free_talk_app/core/widgets/custom_back_butotn.dart';

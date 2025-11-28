@@ -24,9 +24,25 @@ abstract class AppTextTheme {
     color: AppColors.black,
   );
 
+  static TextStyle font32BlackBold = TextStyle(
+    fontSize: 32.sp,
+    fontWeight: FontWeightHelper.bold,
+    color: AppColors.black,
+  );
+
   static TextStyle font13BlackRegular = TextStyle(
     fontSize: 13.sp,
     fontWeight: FontWeightHelper.regular,
+    color: AppColors.black,
+  );
+  static TextStyle font22BlackRegular = TextStyle(
+    fontSize: 22.sp,
+    fontWeight: FontWeightHelper.regular,
+    color: AppColors.black,
+  );
+  static TextStyle font24BlackBold = TextStyle(
+    fontSize: 24.sp,
+    fontWeight: FontWeightHelper.bold,
     color: AppColors.black,
   );
 

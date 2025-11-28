@@ -12,8 +12,10 @@ class AppTheme {
       displayLarge: AppTextTheme.font32BlackRegular,
       displayMedium: AppTextTheme.font13BlackRegular,
       displaySmall: AppTextTheme.font16BlackRegular,
+      bodySmall: AppTextTheme.font22BlackRegular,
+      titleLarge: AppTextTheme.font32BlackBold,
+      titleMedium: AppTextTheme.font24BlackBold,
     ),
-
   );
 
   static ThemeData darkMode = ThemeData(
@@ -22,10 +24,19 @@ class AppTheme {
     brightness: Brightness.dark,
     scaffoldBackgroundColor: AppColors.scaffoldBackgroundDark,
     textTheme: TextTheme(
-      displayLarge: AppTextTheme.font32BlackRegular.copyWith(color: AppColors.white),
-      displayMedium: AppTextTheme.font13BlackRegular.copyWith(color: AppColors.white),
-      displaySmall: AppTextTheme.font16BlackRegular.copyWith(color: AppColors.white),
-    ),
+      displayLarge: AppTextTheme.font32BlackRegular.copyWith(
+        color: AppColors.white,
+      ),
+      displayMedium: AppTextTheme.font13BlackRegular.copyWith(
+        color: AppColors.white,
+      ),
+      displaySmall: AppTextTheme.font16BlackRegular.copyWith(
+        color: AppColors.white,
+      ),
+      bodySmall: AppTextTheme.font22BlackRegular.copyWith(color: AppColors.white),
 
+      titleLarge: AppTextTheme.font32BlackBold.copyWith(color: AppColors.white),
+      titleMedium: AppTextTheme.font24BlackBold.copyWith(color: AppColors.white),
+    ),
   );
 }

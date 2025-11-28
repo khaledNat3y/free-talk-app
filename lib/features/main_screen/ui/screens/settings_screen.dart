@@ -1,17 +1,78 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:free_talk_app/core/helpers/logger.dart';
 import 'package:free_talk_app/core/theming/app_colors.dart';
+import 'package:free_talk_app/features/main_screen/ui/widgets/settingsItem.dart';
+import '../../../../core/helpers/shared_pref_helper.dart';
 import '../../../../core/helpers/spacing.dart';
+import '../../../../core/routing/routes.dart';
+import '../../../auth/logic/auth_cubit.dart';
 import '../../logic/theme_cubit/theme_cubit.dart';
 import 'supported_languages_screen.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
   final GlobalKey<NavigatorState>? navigatorKey;
 
-  const SettingsScreen({
-    super.key,
-    this.navigatorKey,
-  });
+  const SettingsScreen({super.key, this.navigatorKey});
+
+  @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
+  String userName = '';
+  String userEmail = '';
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    try {
+      final String fetchedUserName = await SharedPrefHelper.getString(
+        "userName",
+      );
+      final String fetchedUserEmail = await SharedPrefHelper.getString(
+        "userEmail",
+      );
+
+      setState(() {
+        userName = fetchedUserName;
+        userEmail = fetchedUserEmail;
+        isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+      Logger.debug('Error fetching user data: $e');
+    }
+  }
+
+  void _handleLogout() {
+    AwesomeDialog(
+      context: context,
+      animType: AnimType.rightSlide,
+      dialogType: DialogType.warning,
+      title: 'Logout',
+      desc: 'Are you sure you want to logout?',
+      btnCancelOnPress: () {},
+      btnOkOnPress: () async {
+        await context.read<AuthCubit>().signOut();
+        if (mounted) {
+          Navigator.of(context, rootNavigator: true)
+              .pushNamedAndRemoveUntil(
+            Routes.loginScreen,
+                (route) => false,
+          );
+        }
+      },
+    ).show();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +92,10 @@ class SettingsScreen extends StatelessWidget {
                 InkWell(
                   onTap: () {},
                   child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 15,
+                      horizontal: 12,
+                    ),
                     child: Row(
                       children: [
                         Container(
@@ -41,25 +105,77 @@ class SettingsScreen extends StatelessWidget {
                             shape: BoxShape.circle,
                             color: Colors.grey.shade600,
                           ),
+                          child: Center(
+                            child: isLoading
+                                ? const SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Colors.white,
+                              ),
+                            )
+                                : Text(
+                              userName.isNotEmpty
+                                  ? userName[0].toUpperCase()
+                                  : 'U',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
-                          child: Column(
+                          child: isLoading
+                              ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                width: 100,
+                                height: 12,
+                                decoration: BoxDecoration(
+                                  color: isDarkMode
+                                      ? Colors.white24
+                                      : Colors.black12,
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                              ),
+                              const SizedBox(height: 6),
+                              Container(
+                                width: 150,
+                                height: 10,
+                                decoration: BoxDecoration(
+                                  color: isDarkMode
+                                      ? Colors.white24
+                                      : Colors.black12,
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                              ),
+                            ],
+                          )
+                              : Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Hisham Esam',
+                                userName,
                                 style: TextStyle(
-                                  color: isDarkMode ? Colors.white : Colors.black,
+                                  color: isDarkMode
+                                      ? Colors.white
+                                      : Colors.black,
                                   fontSize: 15,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
                               const SizedBox(height: 2),
                               Text(
-                                'Edit personal details',
+                                userEmail,
                                 style: TextStyle(
-                                  color: isDarkMode ? Colors.white60 : Colors.black54,
+                                  color: isDarkMode
+                                      ? Colors.white60
+                                      : Colors.black54,
                                   fontSize: 12,
                                 ),
                               ),
@@ -76,10 +192,11 @@ class SettingsScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 20),
-
-                // Dark Mode Toggle Row
                 Container(
-                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 12,
+                    horizontal: 12,
+                  ),
                   child: Row(
                     children: [
                       Container(
@@ -115,8 +232,12 @@ class SettingsScreen extends StatelessWidget {
                           onChanged: (value) {
                             context.read<ThemeCubit>().setTheme(value);
                           },
-                          activeColor: isDarkMode ? Colors.black : AppColors.white,
-                          activeTrackColor: isDarkMode ? AppColors.white : AppColors.black,
+                          activeColor: isDarkMode
+                              ? Colors.black
+                              : AppColors.white,
+                          activeTrackColor: isDarkMode
+                              ? AppColors.white
+                              : AppColors.black,
                           inactiveThumbColor: AppColors.white,
                           inactiveTrackColor: AppColors.black,
                         ),
@@ -126,7 +247,6 @@ class SettingsScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 25),
 
-                // Profile Section Header
                 Padding(
                   padding: const EdgeInsets.only(left: 12, bottom: 12),
                   child: Text(
@@ -138,14 +258,14 @@ class SettingsScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                _buildSettingItem(
+                SettingItem(
                   icon: Icons.person_outline,
                   iconColor: Colors.orange,
                   title: 'Edit Profile',
                   isDarkMode: isDarkMode,
                 ),
                 const SizedBox(height: 12),
-                _buildSettingItem(
+                SettingItem(
                   icon: Icons.lock_outline,
                   iconColor: Colors.blue,
                   title: 'Change Password',
@@ -153,7 +273,6 @@ class SettingsScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 25),
 
-                // Regional Section Header
                 Padding(
                   padding: const EdgeInsets.only(left: 12, bottom: 12),
                   child: Text(
@@ -165,80 +284,35 @@ class SettingsScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                _buildSettingItem(
+                SettingItem(
                   icon: Icons.language,
                   iconColor: const Color(0xFF6C5CE7),
                   title: 'Language',
                   isDarkMode: isDarkMode,
                   onTap: () {
-                    if (navigatorKey != null) {
-                      navigatorKey!.currentState?.push(
+                    if (widget.navigatorKey != null) {
+                      widget.navigatorKey!.currentState?.push(
                         MaterialPageRoute(
-                          builder: (context) => SupportedLanguagesScreen(
-                            isDarkMode: isDarkMode,
-                          ),
+                          builder: (context) =>
+                              SupportedLanguagesScreen(isDarkMode: isDarkMode),
                         ),
                       );
                     }
                   },
                 ),
                 const SizedBox(height: 12),
-                _buildSettingItem(
+                SettingItem(
                   icon: Icons.logout,
                   iconColor: Colors.orange,
                   title: 'Logout',
                   isDarkMode: isDarkMode,
+                  onTap: _handleLogout,
                 ),
               ],
             ),
           ),
         );
       },
-    );
-  }
-
-  Widget _buildSettingItem({
-    required IconData icon,
-    required Color iconColor,
-    required String title,
-    required bool isDarkMode,
-    Function()? onTap,
-  }) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(8),
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-        child: Row(
-          children: [
-            Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: iconColor.withValues(alpha: 0.15),
-              ),
-              child: Icon(icon, color: iconColor, size: 22),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Text(
-                title,
-                style: TextStyle(
-                  color: isDarkMode ? Colors.white : Colors.black,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-            Icon(
-              Icons.arrow_forward_ios,
-              color: isDarkMode ? Colors.white60 : Colors.black54,
-              size: 16,
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

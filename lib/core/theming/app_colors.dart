@@ -19,4 +19,5 @@ abstract class AppColors {
   static const Color french = Color(0xff191D77);
   static const Color american = Color(0xff3A3E83);
   static const Color egyptian = Color(0xff125C0B);
+  static const Color grey = Color(0xffDFDFDF);
 }

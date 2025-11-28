@@ -1,11 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import '../../../../core/helpers/shared_pref_helper.dart';
 import '../../../../core/helpers/spacing.dart';
 import '../../logic/theme_cubit/theme_cubit.dart';
 
-class AccountScreen extends StatelessWidget {
+class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
+
+  @override
+  State<AccountScreen> createState() => _AccountScreenState();
+}
+
+class _AccountScreenState extends State<AccountScreen> {
+  String userName = '';
+  String userEmail = '';
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    defineUserNameAndEmail();
+  }
+
+  Future<void> defineUserNameAndEmail() async {
+    try {
+      final String fetchedUserName = await SharedPrefHelper.getString("userName");
+      final String fetchedUserEmail = await SharedPrefHelper.getString("userEmail");
+
+      setState(() {
+        userName = fetchedUserName;
+        userEmail = fetchedUserEmail;
+        isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+      // Handle error if needed
+      print('Error fetching user data: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,32 +57,43 @@ class AccountScreen extends StatelessWidget {
                 ),
                 verticalSpace(20),
                 Center(
-                  child: Column(
-                    children: [
-                      Container(
-                        width: 100,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.grey.shade700,
+                  child: Container(
+                    width: 100,
+                    height: 100,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.grey.shade700,
+                    ),
+                    child: Center(
+                      child: Text(
+                        userName.isNotEmpty ? userName[0].toUpperCase() : 'U',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(height: 15),
-                      Text(
-                        'Account',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                          color: isDarkMode ? Colors.white : Colors.black,
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
-                const SizedBox(height: 30),
-
-// Account Details Card
-                Container(
+                verticalSpace(20),
+                Text(
+                  'Account',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w600,
+                    color: isDarkMode ? Colors.white : Colors.black,
+                  ),
+                  textAlign: TextAlign.start,
+                ),
+                verticalSpace(10),
+                isLoading
+                    ? const Center(
+                  child: CircularProgressIndicator(
+                    color: Color(0xFF6C5CE7),
+                  ),
+                )
+                    : Container(
                   decoration: BoxDecoration(
                     color: const Color(0xFF6C5CE7),
                     borderRadius: BorderRadius.circular(15),
@@ -65,9 +110,9 @@ class AccountScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 5),
-                      const Text(
-                        'hishanesam916@gmail.com',
-                        style: TextStyle(
+                      Text(
+                        userEmail,
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 14,
                         ),
@@ -81,9 +126,9 @@ class AccountScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 5),
-                      const Text(
-                        'Hisham Esam',
-                        style: TextStyle(
+                      Text(
+                        userName,
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 14,
                         ),
@@ -124,7 +169,7 @@ class AccountScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 30),
 
-// Help Section
+                // Help Section
                 Text(
                   'Help',
                   style: TextStyle(
@@ -140,12 +185,14 @@ class AccountScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: ListTile(
-                    leading: const Icon(Icons.help_outline, color: Colors.white),
+                    leading:
+                    const Icon(Icons.help_outline, color: Colors.white),
                     title: const Text(
                       'Frequently asked questions',
                       style: TextStyle(color: Colors.white),
                     ),
-                    trailing: const Icon(Icons.arrow_forward_ios, color: Colors.white, size: 16),
+                    trailing: const Icon(Icons.arrow_forward_ios,
+                        color: Colors.white, size: 16),
                     onTap: () {},
                   ),
                 ),
@@ -161,7 +208,8 @@ class AccountScreen extends StatelessWidget {
                       'Make comment',
                       style: TextStyle(color: Colors.white),
                     ),
-                    trailing: const Icon(Icons.arrow_forward_ios, color: Colors.white, size: 16),
+                    trailing: const Icon(Icons.arrow_forward_ios,
+                        color: Colors.white, size: 16),
                     onTap: () {},
                   ),
                 ),
@@ -173,17 +221,3 @@ class AccountScreen extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
