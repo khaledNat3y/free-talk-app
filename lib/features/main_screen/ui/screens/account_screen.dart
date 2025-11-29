@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:free_talk_app/core/helpers/logger.dart';
 import '../../../../core/helpers/shared_pref_helper.dart';
 import '../../../../core/helpers/spacing.dart';
 import '../../logic/theme_cubit/theme_cubit.dart';
@@ -37,7 +38,7 @@ class _AccountScreenState extends State<AccountScreen> {
         isLoading = false;
       });
       // Handle error if needed
-      print('Error fetching user data: $e');
+      Logger.debug('Error fetching user data: $e');
     }
   }
 

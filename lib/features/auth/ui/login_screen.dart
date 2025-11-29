@@ -13,6 +13,8 @@ import 'package:free_talk_app/features/auth/ui/widgets/custom_text_button.dart';
 import 'package:free_talk_app/features/auth/ui/widgets/custom_text_form_field.dart';
 import 'package:free_talk_app/features/main_screen/logic/theme_cubit/theme_cubit.dart';
 
+import '../../../core/helpers/constants.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -146,7 +148,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         }
 
                         if (state is AuthSuccess) {
-                          bool isLoggedIn = true;
                           context.pushNamed(Routes.mainScreen);
                           AwesomeDialog(
                             context: context,
@@ -157,10 +158,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             btnCancelOnPress: () {},
                             btnOkOnPress: () {},
                           ).show();
-                          await SharedPrefHelper.setData(
-                            "isLoggedIn",
-                            isLoggedIn,
-                          );
                         }
                       },
                       builder: (context, state) {

@@ -22,7 +22,7 @@ class CustomButton extends StatelessWidget {
         height: 60,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: isDarkMode ? AppColors.primaryDark : AppColors.white,
+          color: isDarkMode ? AppColors.primaryDark : AppColors.primary,
           borderRadius: BorderRadius.circular(50),
         ),
         child: Text(
