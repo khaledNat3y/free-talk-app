@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:free_talk_app/core/di/di.dart';
 import 'package:free_talk_app/core/routing/routes.dart';
 import 'package:free_talk_app/core/services/firebase_service.dart';
 import 'package:free_talk_app/features/auth/data/repo/auth_repo.dart';
@@ -25,7 +26,7 @@ class AppRouter {
           builder: (context) =>
               BlocProvider(
                 create: (context) =>
-                    AuthCubit(AuthRepo(firebaseService: FirebaseService())),
+                    AuthCubit(AuthRepo()),
                 child: const LoginScreen(),
               ),
         );
@@ -34,7 +35,7 @@ class AppRouter {
           builder: (context) =>
               BlocProvider(
                 create: (context) =>
-                    AuthCubit(AuthRepo(firebaseService: FirebaseService())),
+                    getIt<AuthCubit>(),
                 child: const SignupScreen(),
               ),
         );
@@ -42,7 +43,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) =>
               BlocProvider(
-                create: (context) => AuthCubit(AuthRepo(firebaseService: FirebaseService())),
+                create: (context) => getIt<AuthCubit>(),
                 child: const MainScreen(),
               ),
         );

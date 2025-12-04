@@ -19,9 +19,15 @@ class CustomTextFormField extends StatelessWidget {
       decoration: InputDecoration(
         filled: true,
         fillColor: Colors.white,
+        errorStyle: const TextStyle(
+          color: AppColors.error,
+          fontSize: 12,
+          fontWeight: FontWeight.w500,
+        ),
         hintText: hintText,
         hintStyle: const TextStyle(color: Colors.black,fontWeight: FontWeight.bold),
         suffixIcon: suffixIcon,
+        suffixIconColor: AppColors.primary,
         border: buildOutlineInputBorder(color: AppColors.grey),
         enabledBorder: buildOutlineInputBorder(color: AppColors.grey),
         focusedBorder: buildOutlineInputBorder(color: AppColors.primary),

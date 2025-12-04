@@ -1,13 +1,12 @@
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:free_talk_app/core/helpers/extensions.dart';
 import 'package:free_talk_app/core/helpers/logger.dart';
 import 'package:free_talk_app/core/theming/app_colors.dart';
 import 'package:free_talk_app/features/main_screen/ui/widgets/settingsItem.dart';
 import '../../../../core/helpers/shared_pref_helper.dart';
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/routing/routes.dart';
-import '../../../auth/logic/auth_cubit.dart';
 import '../../logic/theme_cubit/theme_cubit.dart';
 import 'supported_languages_screen.dart';
 
@@ -54,24 +53,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   void _handleLogout() {
-    AwesomeDialog(
-      context: context,
-      animType: AnimType.rightSlide,
-      dialogType: DialogType.warning,
-      title: 'Logout',
-      desc: 'Are you sure you want to logout?',
-      btnCancelOnPress: () {},
-      btnOkOnPress: () async {
-        await context.read<AuthCubit>().signOut();
-        if (mounted) {
-          Navigator.of(context, rootNavigator: true)
-              .pushNamedAndRemoveUntil(
-            Routes.loginScreen,
-                (route) => false,
-          );
-        }
-      },
-    ).show();
+    context.pushReplacementNamed(Routes.loginScreen);
   }
 
   @override
@@ -160,7 +142,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                userName,
+                                userName.isEmpty ? 'User Name' : userName,
                                 style: TextStyle(
                                   color: isDarkMode
                                       ? Colors.white
@@ -171,7 +153,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               ),
                               const SizedBox(height: 2),
                               Text(
-                                userEmail,
+                                userEmail.isEmpty ? 'User Email' : userEmail,
                                 style: TextStyle(
                                   color: isDarkMode
                                       ? Colors.white60

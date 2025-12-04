@@ -1,21 +1,19 @@
-import 'package:dartz/dartz.dart';
-import 'package:free_talk_app/core/services/firebase_service.dart';
+import '../models/login_request_body.dart';
 
 class AuthRepo {
-  final FirebaseService firebaseService;
+  // create object of API service class to access its functions here
+  AuthRepo();
 
-  AuthRepo({required this.firebaseService});
+  Future createUserWithEmailAndPassword({required String userName, required String emailAddress, required String password}) async{
 
-  Future<Either<String, String>> createUserWithEmailAndPassword({required String userName, required String emailAddress, required String password}) async{
-    return await firebaseService.createUserWithEmailAndPassword(userName : userName, emailAddress: emailAddress, password: password);
   }
 
-  Future<Either<String, String>> signInWithEmailAndPassword({required String emailAddress, required String password}) async{
-    return await firebaseService.signInWithEmailAndPassword(emailAddress: emailAddress, password: password);
+  Future<dynamic> signInWithEmailAndPassword({required LoginRequestBody loginRequestBody}) async{
+
   }
 
-  Future<Either<String, String>> signOut() async{
-    return await firebaseService.signOut();
+  Future<dynamic> signOut() async{
+    // return await firebaseService.signOut();
   }
 
 }

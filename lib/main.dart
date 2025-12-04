@@ -8,6 +8,7 @@ import 'package:free_talk_app/core/helpers/shared_pref_helper.dart';
 import 'package:free_talk_app/features/main_screen/logic/theme_cubit/theme_cubit.dart';
 import 'package:free_talk_app/free_talk_app.dart';
 
+import 'core/di/di.dart';
 import 'core/helpers/constants.dart';
 import 'core/routing/app_router.dart';
 import 'firebase_options.dart';
@@ -18,6 +19,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await ScreenUtil.ensureScreenSize();
+  await setupGetIt();
   await checkIfUserFirstTimeAndLoggedIn();
   Logger.debug("$isFirstTime");
   runApp(BlocProvider(
